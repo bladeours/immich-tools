@@ -1,7 +1,10 @@
 import click
-from src.commands import merge_xmp, refresh_album_metadata, run_job
+from src.commands import merge_xmp, refresh_album_metadata, run_job, version
 import logging
 from datetime import datetime
+import pkg_resources
+import src
+
 
 log = logging.getLogger("immich-tools")
 log.setLevel(logging.INFO)
@@ -14,13 +17,13 @@ console_handler.setFormatter(formatter)
 log.addHandler(console_handler)
 
 
-@click.group()
+@click.group(help=f"""This is immich-tools version {src.__version__}""")
 @click.option("-d", "--debug", is_flag=True, help="Enable debug mode")
 @click.option("-l", "--log-file", is_flag=True, help="Saves logs to file")
 @click.option("--log-path", help="path to directory where logs will be stored, works only if --log-file flag is set to True")
 @click.pass_context
 def main(ctx, debug:bool, log_file: bool, log_path: str):
-    """Tools for immich"""
+    f"""Tools for immich, version """ 
     ctx.ensure_object(dict)
     log.info("Running immich-tools")
     if log_file:
@@ -37,3 +40,4 @@ def main(ctx, debug:bool, log_file: bool, log_path: str):
 main.add_command(refresh_album_metadata.refresh_album_metadata)
 main.add_command(merge_xmp.merge_xmp)
 main.add_command(run_job.run_job)
+main.add_command(version.version)

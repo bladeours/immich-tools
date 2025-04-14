@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+import src
 
 setup(
     name="immich-tools",
-    version="0.1.9",
+    version=src.__version__,
     packages=find_packages(),
     install_requires=["click", "requests", "PyExifTool"],
     entry_points={
