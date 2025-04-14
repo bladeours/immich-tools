@@ -12,7 +12,8 @@ def refresh_album_metadata(album_id, api_key, url):
     """Refresh metada in all assets in album"""
     log.debug(f"immich url: {url}")
     album_response = send_get(path=f"/api/albums/{album_id}", url=url, api_key=api_key).json()
-    log.debug(f"found album: {album_response["albumName"]}")
+    album_name = album_response["albumName"]
+    log.debug(f'found album: {album_name}')
     assets = album_response["assets"]
     asset_ids = list()
     for asset in assets:

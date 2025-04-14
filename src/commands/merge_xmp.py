@@ -7,7 +7,7 @@ from exiftool.exceptions import ExifToolExecuteError
 
 log = logging.getLogger("immich-tools")
 
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".tiff", ".bmp", ".gif", ".heic", ".webp"}
+IMAGE_EXTENSIONS = {".mp4",".jpg", ".jpeg", ".png", ".tiff", ".bmp", ".gif", ".heic", ".webp", ".mov", ".wmv"}
 
 def find_matches(path: str) -> list[tuple[str, str]]:
     matches = []
