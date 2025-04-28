@@ -7,12 +7,13 @@ from exiftool.exceptions import ExifToolExecuteError
 
 log = logging.getLogger("immich-tools")
 
-IMAGE_EXTENSIONS = {".mp4",".jpg", ".jpeg", ".png", ".tiff", ".bmp", ".gif", ".heic", ".webp", ".mov", ".wmv"}
+IMAGE_EXTENSIONS = {".mp4", ".jpg", ".jpeg", ".png", ".tiff", ".bmp", ".gif", ".heic", ".webp", ".mov", ".wmv"}
+
 
 def find_matches(path: str) -> list[tuple[str, str]]:
     matches = []
     log.info(f"Looking for XMP files in: {path}")
-    
+
     # Traverse the directory tree
     for dirpath, _, filenames in os.walk(path):
         for filename in filenames:
