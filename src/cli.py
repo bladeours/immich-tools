@@ -1,5 +1,5 @@
 import click
-from src.commands import merge_xmp, refresh_album_metadata, run_job, version, check_album_tags
+from src.commands import merge_xmp, refresh_album_metadata, run_job, version, check_album_tags, change_owner_photo
 import logging
 from datetime import datetime
 import src
@@ -43,3 +43,4 @@ main.add_command(merge_xmp.merge_xmp)
 main.add_command(run_job.run_job)
 main.add_command(version.version)
 main.add_command(check_album_tags.check_album_tags)
+main.add_command(change_owner_photo.change_owner_photo)

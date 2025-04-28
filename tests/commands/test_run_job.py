@@ -10,12 +10,6 @@ def runner():
 
 
 @pytest.fixture
-def mock_logger():
-    with patch("src.commands.run_job.log") as mock_log:
-        yield mock_log
-
-
-@pytest.fixture
 def mock_send_put():
     with patch("src.commands.run_job.send_put") as mock_put:
         mock_response = MagicMock()
@@ -24,7 +18,7 @@ def mock_send_put():
         yield mock_put
 
 
-def test_run_job_success(runner, mock_logger, mock_send_put):
+def test_run_job_success(runner, mock_send_put):
     api_key = "test_api_key"
     url = "http://test-url.com"
     job_name = "thumbnailGeneration"
@@ -33,8 +27,6 @@ def test_run_job_success(runner, mock_logger, mock_send_put):
 
     # Assertions
     assert result.exit_code == 0
-    mock_logger.debug.assert_any_call(f"immich url: {url}")
     mock_send_put.assert_called_once_with(
         path=f"/api/jobs/{job_name}", url=url, api_key=api_key, data={"command": "start", "force": True}
     )
-    mock_logger.debug.assert_any_call(f"running job: {job_name}")

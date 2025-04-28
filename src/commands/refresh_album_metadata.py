@@ -21,5 +21,7 @@ def refresh_album_metadata(album_id, api_key, url):
         asset_ids.append(asset["id"])
         data = {"assetIds": asset_ids, "name": "refresh-metadata"}
     log.debug(f"refreshing metadata for {len(assets)} assets")
+    # print("essa")
     send_post("/api/assets/jobs", url, api_key, data)
+    # print("Essa")
     log.info("success")
