@@ -1,6 +1,7 @@
 import requests as r
 import logging
-from os import sys
+import sys
+# from os import sys
 
 log = logging.getLogger("immich-tools")
 

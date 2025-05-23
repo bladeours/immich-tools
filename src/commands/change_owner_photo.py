@@ -12,7 +12,7 @@ log = logging.getLogger("immich-tools")
 @click.option("-k", "--api-key", required=True, envvar="IMMICH_API_KEY")
 @click.option("-u", "--url", required=True, envvar="IMMICH_URL")
 def change_owner_photo(album_id, api_key, url):
-    """looking in album for specified tags and return assets without expected tags"""
+    """change ownership of all assets in the album to you"""
     log.debug(f"immich url: {url}")
     owner_id = __get_owner_of_api_key(url, api_key)
     album_response = send_get(path=f"/api/albums/{album_id}", url=url, api_key=api_key).json()
