@@ -1,11 +1,12 @@
 import click
+from src.immich.client.ImmichClient import ImmichClient
 from src.utils.utils import send_get, send_put, send_post, send_multipart, send_delete
 import logging
 import io
 import mimetypes
 
 log = logging.getLogger("immich-tools")
-
+global immich
 
 @click.command()
 @click.argument("album_id")
@@ -14,6 +15,8 @@ log = logging.getLogger("immich-tools")
 def change_owner_photo(album_id, api_key, url):
     """change ownership of all assets in the album to you"""
     log.debug(f"immich url: {url}")
+    global immich
+    immich = ImmichClient(url, api_key)
     owner_id = __get_owner_of_api_key(url, api_key)
     album_response = send_get(path=f"/api/albums/{album_id}", url=url, api_key=api_key).json()
     album_name = album_response["albumName"]
@@ -40,8 +43,9 @@ def change_owner_photo(album_id, api_key, url):
             
     log.info("success")
 
-def __get_owner_of_api_key(url: str, api_key:str):
-    return send_get("/api/users/me", url, api_key).json()["id"]
+def __get_owner_of_api_key():
+    return immich.get_user()
+    # return send_get("/api/users/me", url, api_key).json()["id"]
 
 def __upload_file(url: str, api_key: str, content: bytes, asset: dict):
     filename = asset["originalFileName"]

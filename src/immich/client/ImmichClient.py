@@ -10,6 +10,7 @@ from src.immich.model.Album import Album
 from src.immich.model.Asset import Asset
 from src.immich.model.AssignTagResponse import AssignTagResponse
 from src.immich.model.Tag import Tag
+from src.immich.model.User import User
 
 T = TypeVar("T")
 
@@ -68,6 +69,16 @@ class ImmichClient:
         responses = r.json()
         return [self.__from_dict(AssignTagResponse, response)
                 for response in responses]
+
+    def get_user(self) -> User:
+        """Returns owner of the api key \n
+        path: /api/users/me
+
+        Returns:
+          User
+        """
+        r = self.__send_get(f"/api/users/me")
+        return self.__from_dict(User, r.json())
 
     def create_tag(self, name: str, color = "", parentId = ""):
         data = {"name": name}
