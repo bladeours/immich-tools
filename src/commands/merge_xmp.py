@@ -1,6 +1,6 @@
 import click
 import os
-from os import sys
+import sys
 import logging
 import exiftool
 from exiftool.exceptions import ExifToolExecuteError

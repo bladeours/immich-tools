@@ -24,7 +24,7 @@ class Asset:
     original_mime_type: str | None
     original_path: str
     owner_id: str
-    thumbhash: str
+    thumbhash: str | None
     type: str
     updated_at: str
     visibility: str

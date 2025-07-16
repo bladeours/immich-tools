@@ -1,11 +1,12 @@
 import click
 from .commands import (
+    check_album_tags,
     merge_xmp,
     refresh_album_metadata,
     run_job,
     version,
-    check_album_tags_new,
     change_owner_photo,
+    assign_album_tags
 )
 import logging
 from datetime import datetime
@@ -55,8 +56,9 @@ commands = [
     merge_xmp.merge_xmp,
     run_job.run_job,
     version.version,
-    check_album_tags_new.check_album_tags,
+    check_album_tags.check_album_tags,
     change_owner_photo.change_owner_photo,
+    assign_album_tags.assign_album_tags
 ]
 
 for command in commands:
