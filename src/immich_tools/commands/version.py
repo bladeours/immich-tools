@@ -1,8 +1,8 @@
 import click
-import src
+import immich_tools
 
 
 @click.command()
 def version():
     """shows version"""
-    click.echo(src.__version__)
+    click.echo(immich_tools.__version__)
