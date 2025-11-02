@@ -1,6 +1,5 @@
 import click
 from immich_tools.immich.client.ImmichClient import ImmichClient
-from immich_tools.utils.utils import send_get, send_post
 import logging
 
 log = logging.getLogger("immich-tools")
@@ -21,5 +20,5 @@ def refresh_album_metadata(album_id, api_key, url):
         asset_ids.append(asset.id)
     data = {"assetIds": asset_ids, "name": "refresh-metadata"}
     log.debug(f"refreshing metadata for {len(album.assets)} assets")
-    send_post("/api/assets/jobs", url, api_key, data)
+    immich.utils.send_post("/api/assets/jobs", data)
     log.info("success")

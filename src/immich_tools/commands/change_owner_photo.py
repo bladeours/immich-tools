@@ -2,7 +2,6 @@ import click
 from immich_tools.immich.client.ImmichClient import ImmichClient
 from immich_tools.immich.model.Album import Album
 from immich_tools.immich.model.Asset import Asset
-from immich_tools.utils.utils import send_get, send_put, send_post, send_multipart, send_delete
 import logging
 import io
 import mimetypes
@@ -68,7 +67,7 @@ def __upload_file_old(url: str, api_key: str, content: bytes, asset: Asset):
         "fileModifiedAt": asset.file_modified_at,
     }
     log.debug(f"uploading {filename}...")
-    r = send_multipart("/api/assets", url, api_key, files, data)
+    r = immich.utils.send_multipart("/api/assets", files, data)
     return r.json()["id"]
 
 

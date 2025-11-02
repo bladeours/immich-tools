@@ -1,6 +1,7 @@
 import click
-from immich_tools.utils.utils import send_put
 import logging
+
+from immich_tools.immich.client.ImmichClient import ImmichClient
 
 log = logging.getLogger("immich-tools")
 
@@ -14,6 +15,7 @@ def run_job(api_key, url, job_name):
     videoConversion, faceDetection, facialRecognition, smartSearch, duplicateDetection,
     backgroundTask, storageTemplateMigration, migration, search, sidecar, library, notifications, backupDatabase"""
     log.debug(f"immich url: {url}")
-    send_put(path=f"/api/jobs/{job_name}", url=url, api_key=api_key, data={"command": "start", "force": True}).json()
+    immich = ImmichClient(url, api_key)
+    immich.utils.send_put(path=f"/api/jobs/{job_name}", data={"command": "start", "force": True}).json()
     log.debug(f"running job: {job_name}")
     log.info("success")
