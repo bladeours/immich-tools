@@ -58,5 +58,5 @@ def merge_xmp(path: str, leave_xmp: bool, leave_original: bool, dry_run: bool):
             except ExifToolExecuteError as er:
                 log.error(ex.last_stderr.strip())
                 log.error(f"error while executing exiftool command: {er}")
-                sys.exit(-1)
+                # sys.exit(-1)
     log.info(f"merged {len(matches)} files")
