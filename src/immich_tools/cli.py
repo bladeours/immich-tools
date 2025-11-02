@@ -10,7 +10,7 @@ from .commands import (
 )
 import logging
 from datetime import datetime
-import src
+import immich_tools
 import os
 
 
@@ -37,7 +37,7 @@ def __setup_logging(debug: bool, log_path: str):
     return log
 
 
-@click.group(help=f"""This is immich-tools version {src.__version__}""")
+@click.group(help=f"""This is immich-tools version {immich_tools.__version__}""")
 @click.option("-d", "--debug", is_flag=True, help="Enable debug mode")
 @click.option(
     "-l", "--log-path", help="path to directory where logs will be stored, works only if --log-file flag is set to True"
