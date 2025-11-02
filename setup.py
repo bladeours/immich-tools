@@ -3,7 +3,7 @@ import src
 
 setup(
     name="immich-tools",
-    version="0.2.7",
+    version="0.2.8",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     install_requires=["click", "requests", "PyExifTool", "pytest", "dacite"],
