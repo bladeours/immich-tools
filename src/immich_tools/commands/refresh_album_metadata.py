@@ -1,6 +1,6 @@
 import click
-from src.immich.client.ImmichClient import ImmichClient
-from src.utils.utils import send_get, send_post
+from immich_tools.immich.client.ImmichClient import ImmichClient
+from immich_tools.utils.utils import send_get, send_post
 import logging
 
 log = logging.getLogger("immich-tools")

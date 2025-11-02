@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from src.immich.model.Tag import Tag
+from immich_tools.immich.model.Tag import Tag
 
 @dataclass
 class Asset:

@@ -5,15 +5,15 @@ import mimetypes
 import io
 
 
-from src.immich.model.Album import Album
-from src.immich.model.Asset import Asset
-from src.immich.model.response.AssetToAlbumResponse import AssetToAlbumResponse
-from src.immich.model.response.AssignTagResponse import AssignTagResponse
-from src.immich.model.Tag import Tag
-from src.immich.model.User import User
-from src.immich.model.response.CreateTagResponse import CreateTagResponse
-from src.immich.model.response.UploadAssetResponse import UploadAssetResponse
-from ..utils.Utils import Utils
+from immich_tools.immich.model.Album import Album
+from immich_tools.immich.model.Asset import Asset
+from immich_tools.immich.model.response.AssetToAlbumResponse import AssetToAlbumResponse
+from immich_tools.immich.model.response.AssignTagResponse import AssignTagResponse
+from immich_tools.immich.model.Tag import Tag
+from immich_tools.immich.model.User import User
+from immich_tools.immich.model.response.CreateTagResponse import CreateTagResponse
+from immich_tools.immich.model.response.UploadAssetResponse import UploadAssetResponse
+from immich_tools.immich.utils.Utils import Utils
 
 
 class ImmichClient:

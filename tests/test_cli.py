@@ -1,6 +1,6 @@
 import pytest
 from click.testing import CliRunner
-from src.cli import main
+from src.immich_tools.cli import main
 
 
 @pytest.fixture

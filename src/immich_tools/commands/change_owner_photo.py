@@ -1,8 +1,8 @@
 import click
-from src.immich.client.ImmichClient import ImmichClient
-from src.immich.model.Album import Album
-from src.immich.model.Asset import Asset
-from src.utils.utils import send_get, send_put, send_post, send_multipart, send_delete
+from immich_tools.immich.client.ImmichClient import ImmichClient
+from immich_tools.immich.model.Album import Album
+from immich_tools.immich.model.Asset import Asset
+from immich_tools.utils.utils import send_get, send_put, send_post, send_multipart, send_delete
 import logging
 import io
 import mimetypes

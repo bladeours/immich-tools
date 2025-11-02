@@ -1,5 +1,5 @@
 import click
-from src.immich.client.ImmichClient import ImmichClient
+from immich_tools.immich.client.ImmichClient import ImmichClient, Album
 import logging
 import sys
 
@@ -11,32 +11,41 @@ global immich
 @click.argument("album_id")
 @click.option("-k", "--api-key", required=True, envvar="IMMICH_API_KEY")
 @click.option("-u", "--url", required=True, envvar="IMMICH_URL")
-@click.option(
-    "-t", "--tag", "expected_tags", required=True, multiple=True, help="expected tags (use multiple -t/--tag)"
-)
-@click.option("-a", "--add-missing", is_flag=True, help="will add missing tags")
 @click.option("-c", "--create-tag", is_flag=True, help="will create missing tags if needed")
-def check_album_tags(album_id, api_key, url, expected_tags, add_missing, create_tag):
-    """looking in album for specified tags and return assets without expected tags"""
+def assign_album_tags(album_id, api_key, url, create_tag):
+    """looking in album for specified tags and return assets without expected tags. Use all as album id to assign tags in all albums"""
     log.debug(f"immich url: {url}")
     global immich
     immich = ImmichClient(url, api_key)
-    album = immich.get_album(album_id)
-    album_name = album.album_name
-    log.debug(f"found album: {album_name}")
-    assets = list(map(lambda a: a.id, album.assets))
-    for asset_id in assets:
-        asset = immich.get_asset(asset_id)
-        tags = asset.tags if asset.tags else []
-        tags = list(map(lambda tag: tag.value, tags))
-        if not set(expected_tags).issubset(tags):
-            missing_tags = list(set(expected_tags) - set(tags))
-            print(f"asset: {asset.id}, actual tags: {tags}, missing tags: {missing_tags}")
-            if add_missing:
-                all_tags = __get_all_tags_value_id()
-                __add_missing_tags(asset.id, missing_tags, all_tags, create_tag)
+    if album_id == "all":
+        albums = immich.get_albums()
+        for album in albums:
+            __handle_album(immich.get_album(album.id))
+    else:
+        album = immich.get_album(album_id)
+        __handle_album(album)
     log.info("success")
 
+def __handle_album(album: Album):
+    album_name = album.album_name
+    log.debug(f"found album: {album_name}")
+    tags = __get_tags_from_discription(album.description)
+    asset_ids = list(map(lambda a: a.id, album.assets))
+    log.debug("creating tags if necessary")
+    create_tag_responses = immich.upsert_tags(tags)
+    for response in create_tag_responses:
+        log.debug(f"assigning tag: {response.value}")
+        immich.assign_tag_to_assets(response.id, asset_ids)
+
+def __get_tags_from_discription(description: str) -> list[str]:
+    tags = []
+    for line in description.split("\n"):
+        if "=" in line and line.split("=")[0] == "tag":
+            tag = line.split("=")[1]
+            log.debug(f"found tag in description: {tag}")
+            tags.append(tag)
+            
+    return tags
 
 def __get_all_tags_value_id() -> dict:
     all_tags = immich.get_all_tags()

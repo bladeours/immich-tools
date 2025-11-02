@@ -1,5 +1,5 @@
 import click
-from src.utils.utils import send_put
+from immich_tools.utils.utils import send_put
 import logging
 
 log = logging.getLogger("immich-tools")
