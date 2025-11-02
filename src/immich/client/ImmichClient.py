@@ -13,7 +13,7 @@ from src.immich.model.Tag import Tag
 from src.immich.model.User import User
 from src.immich.model.response.CreateTagResponse import CreateTagResponse
 from src.immich.model.response.UploadAssetResponse import UploadAssetResponse
-from immich.utils.Utils import Utils
+from ..utils.Utils import Utils
 
 
 class ImmichClient:
