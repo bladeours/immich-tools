@@ -7,7 +7,6 @@ class Album:
     album_name: str
     album_thumbnail_asset_id: str
     asset_count: int
-    assets: list[Asset]
     created_at: datetime
     description: str
     end_date: datetime | None

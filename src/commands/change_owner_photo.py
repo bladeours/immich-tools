@@ -34,7 +34,7 @@ def change_owner_photo(album_id, api_key, url):
 def __handle_album(album: Album):
     log.debug(f"found album: {album.album_name}")
     owner_id = __get_owner_of_api_key()
-    assets = album.assets
+    assets = immich.get_album_assets(album.id)
     for asset in assets:
         old_asset_id = asset.id
         old_asset_info = immich.get_asset(asset.id)

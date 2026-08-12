@@ -30,7 +30,7 @@ def __handle_album(album: Album):
     album_name = album.album_name
     log.debug(f"found album: {album_name}")
     tags = __get_tags_from_discription(album.description)
-    asset_ids = list(map(lambda a: a.id, album.assets))
+    asset_ids = immich.get_album_asset_ids(album.id)
     log.debug("creating tags if necessary")
     create_tag_responses = immich.upsert_tags(tags)
     for response in create_tag_responses:

@@ -3,13 +3,12 @@ from datetime import datetime
 
 from src.immich.model.Tag import Tag
 
+
 @dataclass
 class Asset:
     checksum: str
-    device_asset_id: str
-    device_id: str
     duplicate_id: str | None
-    duration: str
+    duration: int | None
     file_created_at: datetime
     file_modified_at: datetime
     has_metadata: bool
@@ -29,3 +28,5 @@ class Asset:
     updated_at: str
     visibility: str
     tags: list[Tag] | None
+    device_asset_id: str | None = None
+    device_id: str | None = None

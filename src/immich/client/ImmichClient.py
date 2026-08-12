@@ -13,7 +13,7 @@ from src.immich.model.Tag import Tag
 from src.immich.model.User import User
 from src.immich.model.response.CreateTagResponse import CreateTagResponse
 from src.immich.model.response.UploadAssetResponse import UploadAssetResponse
-from immich.utils.Utils import Utils
+from src.immich.utils.Utils import Utils
 
 
 class ImmichClient:
@@ -46,20 +46,24 @@ class ImmichClient:
         Returns:
           album
         """
-        r = self.utils.send_get(f"/api/albums/{id}")
-        return self.utils.from_dict(Album, r.json())
-      
-      
-    def get_albums(self) -> list[Album]:
-        """Returns album of id \n
-        path: /api/albums/:id
 
-        Returns:
-          all album
-        """
-        r = self.utils.send_get(f"/api/albums")
+        r = self.utils.send_get(f"/api/albums/{id}")
+        album_json = self.__normalize_album(r.json())
+        return self.utils.from_dict(Album, album_json)
+
+
+    def get_albums(self) -> list[Album]:
+        """Returns all albums."""
+        r = self.utils.send_get("/api/albums")
         albums_json = r.json()
-        return [self.utils.from_dict(Album, album_json) for album_json in albums_json]
+
+        return [
+            self.utils.from_dict(
+                Album,
+                self.__normalize_album(album_json)
+            )
+            for album_json in albums_json
+        ]
 
     def get_all_tags(self) -> list[Tag]:
         """Returns all tags \n
@@ -182,3 +186,64 @@ class ImmichClient:
         """
         r = self.utils.send_get(f"/api/assets/{asset_id}/original")
         return r.content
+
+
+    def get_album_asset_ids(self, album_id: str) -> list[str]:
+        """Returns all asset IDs belonging to an album."""
+
+        page = 1
+        size = 1000
+        asset_ids = []
+
+        while True:
+            data = {
+                "albumIds": [album_id],
+                "page": page,
+                "size": size,
+            }
+
+            r = self.utils.send_post("/api/search/metadata", data=data)
+            response = r.json()
+
+            assets = response.get("assets", {})
+            items = assets.get("items", [])
+
+            asset_ids.extend(
+                asset["id"]
+                for asset in items
+            )
+
+            next_page = assets.get("nextPage")
+
+            if not next_page:
+                break
+
+            page = int(next_page)
+
+        return asset_ids
+
+    def __normalize_album(self, album_json: dict) -> dict:
+        album_users = album_json.get("albumUsers", [])
+
+        owner_id = next(
+            (
+                album_user["user"]["id"]
+                for album_user in album_users
+                if album_user.get("role") == "owner"
+            ),
+            None,
+        )
+
+        album_json["ownerId"] = owner_id
+
+        return album_json
+
+    def get_album_assets(self, album_id: str) -> list[Asset]:
+        """Returns full Asset objects belonging to an album."""
+
+        asset_ids = self.get_album_asset_ids(album_id)
+
+        return [
+            self.get_asset(asset_id)
+            for asset_id in asset_ids
+        ]
